@@ -1,0 +1,44 @@
+{
+  "name": "unorouter-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for UnoRouter: search 200+ models (most free), check pricing, and chat through one OpenAI-compatible key",
+  "license": "AGPL-3.0",
+  "type": "module",
+  "bin": {
+    "unorouter-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && chmod +x dist/index.js",
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0-don/unorouter-mcp.git"
+  },
+  "homepage": "https://unorouter.com",
+  "keywords": [
+    "mcp",
+    "modelcontextprotocol",
+    "unorouter",
+    "llm",
+    "ai-gateway",
+    "openai-compatible",
+    "free-models"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
