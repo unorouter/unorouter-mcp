@@ -8,11 +8,12 @@ const PORT = Number(process.env.PORT ?? 3000);
 // Stateless mode: a fresh server + transport per request, the caller's own
 // UnoRouter key rides in as a Bearer token so the endpoint is multi tenant.
 const httpServer = http.createServer(async (req, res) => {
-  if (req.url === "/healthz") {
+  const rawUrl = new URL(req.url ?? "/", "http://localhost");
+  if (rawUrl.pathname === "/healthz") {
     res.writeHead(200, { "Content-Type": "text/plain" }).end("ok");
     return;
   }
-  if (req.url !== "/mcp" && req.url !== "/") {
+  if (rawUrl.pathname !== "/mcp" && rawUrl.pathname !== "/") {
     res.writeHead(404, { "Content-Type": "application/json" }).end(
       JSON.stringify({ error: "not found, POST /mcp" }),
     );
@@ -32,7 +33,10 @@ const httpServer = http.createServer(async (req, res) => {
   }
 
   const auth = req.headers.authorization;
-  const apiKey = auth?.startsWith("Bearer ") ? auth.slice(7) : undefined;
+  // Smithery-style session config arrives as ?apiKey=; Bearer wins when both set.
+  const apiKey = auth?.startsWith("Bearer ")
+    ? auth.slice(7)
+    : (rawUrl.searchParams.get("apiKey") ?? undefined);
 
   try {
     const server = createMcpServer(apiKey);

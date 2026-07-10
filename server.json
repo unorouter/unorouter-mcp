@@ -7,12 +7,12 @@
     "source": "github"
   },
   "websiteUrl": "https://unorouter.com",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "unorouter-mcp",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "transport": {
         "type": "stdio"
       },
