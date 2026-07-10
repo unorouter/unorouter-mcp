@@ -1,6 +1,6 @@
 {
   "name": "unorouter-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP server for UnoRouter: search 200+ models (most free), check pricing, and chat through one OpenAI-compatible key",
   "license": "AGPL-3.0",
   "type": "module",
@@ -40,5 +40,6 @@
   },
   "engines": {
     "node": ">=18"
-  }
+  },
+  "mcpName": "com.unorouter/mcp"
 }

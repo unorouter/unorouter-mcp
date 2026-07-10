@@ -1,0 +1,37 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.unorouter/mcp",
+  "description": "Search 200+ UnoRouter models (most free), check pricing, and chat through one key",
+  "repository": {
+    "url": "https://github.com/0-don/unorouter-mcp",
+    "source": "github"
+  },
+  "websiteUrl": "https://unorouter.com",
+  "version": "0.1.1",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "unorouter-mcp",
+      "version": "0.1.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "UNOROUTER_API_KEY",
+          "description": "UnoRouter API key from https://unorouter.com/token",
+          "isRequired": true,
+          "format": "string",
+          "isSecret": true
+        },
+        {
+          "name": "UNOROUTER_BASE_URL",
+          "description": "Override the API base URL (defaults to https://api.unorouter.com)",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false
+        }
+      ]
+    }
+  ]
+}
