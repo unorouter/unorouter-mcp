@@ -7,12 +7,12 @@
     "source": "github"
   },
   "websiteUrl": "https://unorouter.com",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "unorouter-mcp",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "transport": {
         "type": "stdio"
       },
@@ -32,6 +32,12 @@
           "isSecret": false
         }
       ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.unorouter.com/mcp"
     }
   ]
 }
