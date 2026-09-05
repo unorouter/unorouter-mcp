@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/0-don/unorouter-mcp.git"
+    "url": "git+https://github.com/unorouter/unorouter-mcp.git"
   },
   "homepage": "https://unorouter.com",
   "keywords": [
