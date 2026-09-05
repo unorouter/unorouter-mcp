@@ -1,2 +1,7 @@
 node_modules/
 dist/
+
+# MCP registry publisher tool and its DNS key never belong in git; the key lives in OpenBao secret/mcp-registry
+*.pem
+mcp-publisher
+mcp-publisher_*.tar.gz
