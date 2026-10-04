@@ -34,7 +34,7 @@ export function createServer(apiKey: string | undefined): McpServer {
   return body.data.map((m) => m.id);
 }
 
-  const server = new McpServer({ name: "unorouter", version: "0.2.0" });
+  const server = new McpServer({ name: "unorouter", version: "0.2.2" });
 
 server.registerTool(
   "search_models",
