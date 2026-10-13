@@ -4,11 +4,26 @@ import { createServer as createMcpServer } from "./server.js";
 import http from "node:http";
 
 const PORT = Number(process.env.PORT ?? 3000);
+// MCP messages are a few KB; an unbounded read let one POST exhaust the pod's memory.
+const MAX_BODY_BYTES = 1 << 20;
+
+const sendJson = (res: http.ServerResponse, status: number, payload: unknown) => {
+  if (!res.headersSent) {
+    res.writeHead(status, { "Content-Type": "application/json" }).end(JSON.stringify(payload));
+  }
+};
 
 // Stateless mode: a fresh server + transport per request, the caller's own
 // UnoRouter key rides in as a Bearer token so the endpoint is multi tenant.
 const httpServer = http.createServer(async (req, res) => {
-  const rawUrl = new URL(req.url ?? "/", "http://localhost");
+  let rawUrl: URL;
+  try {
+    // "//" and similar reach here from scanners; an uncaught throw used to exit the process
+    rawUrl = new URL(req.url ?? "/", "http://localhost");
+  } catch {
+    sendJson(res, 400, { error: "invalid request path" });
+    return;
+  }
   if (rawUrl.pathname === "/healthz") {
     res.writeHead(200, { "Content-Type": "text/plain" }).end("ok");
     return;
@@ -50,22 +65,31 @@ const httpServer = http.createServer(async (req, res) => {
     await server.connect(transport);
 
     const chunks: Buffer[] = [];
-    for await (const chunk of req) chunks.push(chunk as Buffer);
+    let size = 0;
+    for await (const chunk of req) {
+      size += (chunk as Buffer).length;
+      if (size > MAX_BODY_BYTES) {
+        sendJson(res, 413, {
+          jsonrpc: "2.0",
+          error: { code: -32600, message: "Request body too large" },
+          id: null,
+        });
+        req.destroy();
+        return;
+      }
+      chunks.push(chunk as Buffer);
+    }
     const body = chunks.length
       ? JSON.parse(Buffer.concat(chunks).toString("utf8"))
       : undefined;
 
     await transport.handleRequest(req, res, body);
   } catch (err) {
-    if (!res.headersSent) {
-      res.writeHead(500, { "Content-Type": "application/json" }).end(
-        JSON.stringify({
-          jsonrpc: "2.0",
-          error: { code: -32603, message: String(err) },
-          id: null,
-        }),
-      );
-    }
+    sendJson(res, 500, {
+      jsonrpc: "2.0",
+      error: { code: -32603, message: String(err) },
+      id: null,
+    });
   }
 });
 
