@@ -121,7 +121,7 @@ server.registerTool(
     },
   },
   async (args) => {
-    const res = await fetch(`${API_BASE}/api/pricing`);
+    const res = await fetch(`${API_BASE}/api/pricing`, { headers: authHeaders() });
     if (!res.ok) throw new Error(`GET /api/pricing failed: ${res.status}`);
     const body = (await res.json()) as { data: PricingModel[] };
     let models = body.data;

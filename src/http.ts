@@ -48,10 +48,9 @@ const httpServer = http.createServer(async (req, res) => {
   }
 
   const auth = req.headers.authorization;
-  // Smithery-style session config arrives as ?apiKey=; Bearer wins when both set.
-  const apiKey = auth?.startsWith("Bearer ")
-    ? auth.slice(7)
-    : (rawUrl.searchParams.get("apiKey") ?? undefined);
+  // Header only: a key in the URL lands in proxy logs and browser history.
+  const bearer = auth?.startsWith("Bearer ") ? auth.slice(7).trim() : undefined;
+  const apiKey = bearer && /^[\x21-\x7e]+$/.test(bearer) ? bearer : undefined;
 
   try {
     const server = createMcpServer(apiKey);
