@@ -1,18 +1,19 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "com.unorouter/mcp",
+  "title": "UnoRouter",
   "description": "Search 200+ UnoRouter models (most free), check pricing, and chat through one key",
   "repository": {
     "url": "https://github.com/unorouter/unorouter-mcp",
     "source": "github"
   },
   "websiteUrl": "https://unorouter.com",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "unorouter-mcp",
-      "version": "0.2.4",
+      "version": "0.2.5",
       "transport": {
         "type": "stdio"
       },
@@ -38,6 +39,19 @@
     {
       "type": "streamable-http",
       "url": "https://mcp.unorouter.com/mcp"
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://unorouter.com/images/logo/logo.svg",
+      "mimeType": "image/svg+xml"
+    },
+    {
+      "src": "https://unorouter.com/images/icons/icon-512.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "512x512"
+      ]
     }
   ]
 }

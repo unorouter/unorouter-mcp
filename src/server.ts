@@ -34,7 +34,7 @@ export function createServer(apiKey: string | undefined): McpServer {
   return body.data.map((m) => m.id);
 }
 
-  const server = new McpServer({ name: "unorouter", version: "0.2.3" });
+  const server = new McpServer({ name: "unorouter", version: "0.2.5" });
 
 server.registerTool(
   "search_models",
@@ -50,6 +50,7 @@ server.registerTool(
       free_only: z.boolean().optional().describe("Only return :free models"),
       limit: z.number().int().min(1).max(500).optional().describe("Max results, default 50"),
     },
+    annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: true },
   },
   async (args) => {
     let ids = await fetchModels();
@@ -70,11 +71,30 @@ server.registerTool(
     description:
       "Send a single prompt to any UnoRouter model and return the reply. Use search_models to find model IDs; :free models cost nothing (light per-model rate limit, rotate models if you hit 429).",
     inputSchema: {
-      model: z.string().describe("Model id, e.g. deepseek-v4-flash:free"),
-      prompt: z.string().describe("The user prompt"),
-      system: z.string().optional().describe("Optional system prompt"),
-      max_tokens: z.number().int().min(1).max(32768).optional(),
-      temperature: z.number().min(0).max(2).optional(),
+      model: z.string().describe("Model id from search_models, e.g. deepseek-v4-flash:free"),
+      prompt: z.string().describe("The user message to send to the model"),
+      system: z.string().optional().describe("Optional system prompt sent before the user message"),
+      max_tokens: z
+        .number()
+        .int()
+        .min(1)
+        .max(32768)
+        .optional()
+        .describe("Upper bound on reply length in tokens; the model default when omitted"),
+      temperature: z
+        .number()
+        .min(0)
+        .max(2)
+        .optional()
+        .describe("Sampling temperature from 0 (deterministic) to 2 (most random); the model default when omitted"),
+    },
+    // Changes nothing on the account, but a paid model spends balance and each
+    // call returns a fresh reply.
+    annotations: {
+      readOnlyHint: false,
+      destructiveHint: false,
+      idempotentHint: false,
+      openWorldHint: true,
     },
   },
   async (args) => {
@@ -119,6 +139,7 @@ server.registerTool(
       query: z.string().optional().describe("Substring filter on the model name"),
       limit: z.number().int().min(1).max(500).optional().describe("Max results, default 25"),
     },
+    annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: true },
   },
   async (args) => {
     const res = await fetch(`${API_BASE}/api/pricing`, { headers: authHeaders() });
