@@ -1,6 +1,6 @@
 # unorouter-mcp
 
-MCP server for [UnoRouter](https://unorouter.com), an open-source OpenAI-compatible gateway serving 200+ models (Claude, GPT, Gemini, DeepSeek, Kimi, GLM, Qwen and more) behind a single API key. Models with a `:free` suffix cost nothing.
+MCP server for [UnoRouter](https://unorouter.com), an open-source OpenAI-compatible gateway that serves models from every major provider (Claude, GPT, Gemini, DeepSeek, Kimi, GLM, Qwen and more) behind a single API key. Models with a `:free` suffix cost nothing.
 
 Gives any MCP client (Claude Desktop, Claude Code, Cursor, Windsurf, and friends) three tools:
 

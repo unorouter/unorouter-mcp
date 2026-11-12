@@ -41,7 +41,7 @@ server.registerTool(
   {
     title: "Search UnoRouter models",
     description:
-      "Search the live UnoRouter model catalog (200+ models behind one OpenAI-compatible key). Models ending in :free cost nothing. Returns matching model IDs usable with the chat tool or any OpenAI-compatible client pointed at https://api.unorouter.com/v1.",
+      "Search the live UnoRouter model catalog (every major provider behind one OpenAI-compatible key). Models ending in :free cost nothing. Returns matching model IDs usable with the chat tool or any OpenAI-compatible client pointed at https://api.unorouter.com/v1.",
     inputSchema: {
       query: z
         .string()

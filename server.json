@@ -2,18 +2,18 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "com.unorouter/mcp",
   "title": "UnoRouter",
-  "description": "Search 200+ UnoRouter models (most free), check pricing, and chat through one key",
+  "description": "Search UnoRouter models, free ones included, check prices and chat through one OpenAI-compatible key",
   "repository": {
     "url": "https://github.com/unorouter/unorouter-mcp",
     "source": "github"
   },
   "websiteUrl": "https://unorouter.com",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "unorouter-mcp",
-      "version": "0.2.5",
+      "version": "0.2.6",
       "transport": {
         "type": "stdio"
       },
